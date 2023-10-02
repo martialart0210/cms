@@ -1,0 +1,34 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB;FLUSHALL
+    networks:
+      - default
+  mysql-db:
+    image: mysql
+    container_name: mysql-db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=1111
+      - MYSQL_DATABASE=martial_arts_dev
+      - MYSQL_PASSWORD=1111
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - default
+    command: --pid-file=/var/lib/mysql/mysqld.pid
+volumes:
+  mysql-data:
+
+networks:
+  default:
